@@ -1,0 +1,35 @@
+{%load static%}
+
+<!-- footer starts -->
+<footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>About Us</h5>
+                <p>NovaMart is your one-stop shop for all your shopping needs. We offer a wide range of products at unbeatable prices.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'ecom_app:product' %}" class="text-light">Product List</a></li>
+                    <li><a href="{% url 'ecom_app:login' %}" class="text-light">Login</a></li>
+                    <li><a href="{% url 'ecom_app:sign' %}" class="text-light">Sign Up</a></li>
+                    <li><a href="{% url 'ecom_app:clist' %}" class="text-light">Cart List</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: NovaMart@gmail.com</p>
+                <p>Phone: +91 7666980874</p>
+            </div>
+        </div>
+        <hr class="text-light">
+        <div class="text-center">
+            <p>&copy; 2024 NovaMart. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<!-- footer ends -->
+
+<script src="{%static 'js/bmin.js'%}"></script>
+<script src="{%static 'js/p.js'%}"></script>

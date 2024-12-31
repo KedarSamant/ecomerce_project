@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Your Orders</h1>
+    {% if orders %}
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Items</th>
+                    <th>Total Price</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>
+                        <ul>
+                            {% for cart_item in order.cart_items.all %}
+                            <li>
+                                {{ cart_item.product.name }} (Qty: {{ cart_item.quantity }}) - ₹{{ cart_item.product.price }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td>{{ order.created_at|date:"d M Y, h:i A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no orders yet. <a href="/">Shop now</a></p>
+    {% endif %}
+{% endblock %}

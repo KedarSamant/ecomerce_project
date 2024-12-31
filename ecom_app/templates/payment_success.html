@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Payment Successful!</h1>
+<p>Thank you for your purchase!</p>
+
+<!-- <h2>Order Details:</h2>
+<p>Order ID: {{ order.order_id }}</p>
+<p>Total Amount: ₹{{ order.total_amount|floatformat:2 }}</p>
+<p>Payment ID: {{ order.payment_id }}</p> -->
+<p>Your order will be processed shortly.</p>
+
+<a href="/">Go to Home</a>
+{% endblock %}

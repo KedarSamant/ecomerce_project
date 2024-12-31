@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+
+{%block body%}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<form action="{% url 'handle_payment' %}" method="POST" id="razorpay-form">
+    {% csrf_token %}
+    <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
+    <input type="hidden" name="total_price" value="{{ total_price }}">
+    <button type="button" id="pay-button">Pay</button>
+</form>
+
+<script>
+    document.getElementById('pay-button').onclick = function(e){
+        e.preventDefault();
+        var options = {
+            "key": "{{ settings.RAZORPAY_KEY_ID }}",
+            "amount": {{ total_price|floatformat:2|float:100 }}, // amount in paise
+            "currency": "INR",
+            "name": "Your Company Name",
+            "description": "Test Transaction",
+            "order_id": "{{ razorpay_order_id }}",
+            "handler": function (response){
+                document.getElementById('razorpay-form').submit();
+            },
+            "prefill": {
+                "name": "Customer Name",
+                "email": "customer@example.com",
+                "contact": "9999999999"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    };
+</script>
+
+{%endblock%}

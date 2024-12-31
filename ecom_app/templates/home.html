@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<!-- Flash Messages -->
+{% if messages %}
+<div class="alert-container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Custom Styles -->
+<style>
+
+    
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 768px) {
+        .card-img-top {
+            height: 100px; /* Reduce image height for mobile view */
+        }
+    }
+
+    /* Carousel image styling */
+    .carousel-item img {
+        object-fit:cover; 
+        height: 600px; 
+        width: 100vw; 
+        
+    }
+    
+    
+
+    /* Additional CSS for better alignment */
+    .pagination {
+        justify-content: center; /* Center pagination */
+    }
+
+    .alert-container {
+        margin: 20px 0; /* Add spacing around alerts */
+    }
+    
+</style>
+
+<!-- Carousel Section -->
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'image/c1.png' %}" class="d-block w-100" alt="Slide 1">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'image/c2.png' %}" class="d-block w-100" alt="Slide 2">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'image/c3.png' %}" class="d-block w-100" alt="Slide 3">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<div class="container my-5  col-lg-10 contener">
+    <div class="row">
+        {% if pl %}
+        {% for product in pl %}
+        <div class="col-md-3">
+            <div class="card");">
+                <img src="{{ product.image.url }}" class="card-img-top my-2" alt="" style="height: 220px;">
+                <div class="card-body">
+                    <div class="card-title">
+                        <b>{{ product.name }}</b>
+                    </div>
+                    <div class="card-title">
+                        {{ product.description }}
+                    </div>
+                    <div class="card-text">
+                        <b>₹ {{ product.price }}</b>
+                    </div>
+                    <a href="{% url 'ecom_app:product_detail' product.id %}" class="btn btn-warning">View</a>
+                    <a href="{%url 'ecom_app:add' product.id%}" class="btn atc btn-success">Add to cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+   </div>
+<!-- Pagination Section -->
+<div class="row">
+    <div class="col-md-12">
+        <ul class="pagination">
+            {% if pl.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pl.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="?page={{ pl.number }}">Current</a>
+            </li>
+            {% if pl.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pl.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<!-- JavaScript to Hide Flash Messages -->
+<script>
+    setTimeout(function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.display = 'none';
+        });
+    }, 5000); // Hides alerts after 5 seconds
+</script>
+
+{% endblock %}

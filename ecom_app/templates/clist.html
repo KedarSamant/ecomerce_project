@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!-- Flash Messages -->
+{% if messages %}
+<div class="alert-container">
+    {% for message in messages %}
+    <div style="color: red; font-weight: bold;" class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<hr>
+<form method="post" id="razorpay-form" action="{% url 'ecom_app:create_order' %}">
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Username</th>
+            <th>Sub-Total</th>
+            <th>Action</th>
+        </tr>
+        {% for item in cl %}
+        <tr id="item-{{ item.item.id }}">
+            <td>{{ item.item.id }}</td>
+            <td>{{ item.item.product.name }}</td>
+            <td>{{ item.item.product.price|floatformat:2 }}</td>
+            <td>
+                <input type="number" name="quantity-{{ item.item.id }}" value="{{ item.item.quantity }}" min="1"
+                    onchange="updateCartItem({{ item.item.id }}, {{ item.item.product.price }})">
+            </td>
+            <td>{{ item.item.user.username }}</td>
+            <td class="subtotal" id="subtotal-{{ item.item.id }}">₹{{ item.subtotal|floatformat:2 }}</td>
+            <td><a class="btn btn-danger"  href="{% url 'ecom_app:delete1' item.item.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <tr>
+        <div class=" btn-success" style=" border: 1px; width: 100px; ">
+            <td ><a style="text-decoration: none;color: white;" href="place">place order</a></td>
+        </div>
+        <!-- <td><button type="submit">Place-Order</button></td> -->
+        <td>Total Bill: <span id="total-bill">{{ total_price|floatformat:2 }}</span></td>
+        
+    </tr>
+</form>
+<hr>
+
+<script>
+    function updateCartItem(itemId, price) {
+        const quantityInput = document.querySelector(`input[name="quantity-${itemId}"]`);
+        const quantity = parseInt(quantityInput.value);
+        const subtotal = price * quantity;
+
+        document.getElementById(`subtotal-${itemId}`).textContent = `₹${subtotal.toFixed(2)}`;
+
+        // Recalculate total
+        let total = 0;
+        document.querySelectorAll('.subtotal').forEach(function (subtotalElement) {
+            total += parseFloat(subtotalElement.textContent.replace('₹', ''));
+        });
+        document.getElementById('total-bill').textContent = `₹${total.toFixed(2)}`;
+    }
+</script>
+
+
+
+
+
+
+
+{% endblock %}
+
+

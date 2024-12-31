@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #0b1a33;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="\">NovaMart</a>
+    <button style="border: 1px solid white;" class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+        data-bs-target="#navbarSupportedContent" 
+        aria-controls="navbarSupportedContent" 
+        aria-expanded="false" aria-label="Toggle navigation">
+      <span style="background-color: aqua;" class="navbar-toggler-icon"></span>
+      
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'ecom_app:product' %}">Shop Now</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'ecom_app:clist' %}">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'ecom_app:user_orders' %}">Orders</a>
+        </li>
+        
+        {% endif %}
+      </ul>
+
+      <!-- Center-aligned Search Form -->
+      <form style="display: flex; align-items: center;gap: 5px;padding-bottom: 7px;" class="d-flex mx-auto w-50 pt-3" role="search" method="post" action="{% url 'ecom_app:p_search' %}">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="srch">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+
+      <!-- Right-aligned Login/Signup Buttons -->
+      <ul class="navbar-nav ms-auto">
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-white btn btn-success me-2" href="{% url 'ecom_app:login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white btn btn-primary" href="{% url 'ecom_app:sign' %}">SignUp</a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- Welcome Message (if authenticated) -->
+      {% if user.is_authenticated %}
+      <h4 style="margin: 0; font-size: 1rem;" class="text-white ms-3 mb-0" style="font-family: cursive;">Welcome, {{ user }}</h4>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a style="padding-left: 2rem;" class="nav-link text-white" href="{% url 'ecom_app:logout' %}">Logout</a>
+      </li>
+     </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
